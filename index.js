@@ -1,7 +1,7 @@
 // Importing packages 
 const inquirer = require('inquirer');
 const express = require('express');
-const cTable = require('console.table');
+const consoletable = require('console.table');
 const mySql = require('mySql2');
 
 
@@ -22,7 +22,7 @@ user: 'root',
 password: 'Anu03121977',
 database: 'empmanagement_db',
 },
-console.log('Connected to EmployeeManagement database')
+console.log('Connected to employee management database)')
 );
 
 function mainPage (){
@@ -104,10 +104,9 @@ function addDepart () {
 const viewAllEmployee = () => 
 new Promise ((resolve, reject) => {
   db.query(
-    `SELECT EMP.id, EMP.first_name, EMP.last_name, profiles.title AS job_title, DEPT.name AS Department,
-     profiles.salary, CONCAT(MAN.first_name, " ", MAN.last_name) AS manager FROM employee AS EMP LEFT JOIN profiles 
-     AS profiles ON EMP.profile_id = profiles.id LEFT JOIN employee as MAN ON EMP.manager_id = MAN.id JOIN 
-     department AS DEPT ON profiles.department_id = DEPT.id;`, 
+        `SELECT EMP.id, EMP.first_name, EMP.last_name, profiles.title AS job_title, DEPT.name AS Department,
+    profiles.salary, CONCAT(MAN.first_name, " ", MAN.last_name) AS manager from employee AS EMP LEFT JOIN employee as
+     MAN ON EMP.manager_id = MAN.id left join profiles as profiles on emp.profile_id=profiles.id left join department as DEPT on profiles.department_id=DEPT.id;`,
   function (err,results) {
     if(err) {
       reject(err);
@@ -153,21 +152,21 @@ function addEmployee () {
   .then ((answers) => {
     let managerId = function() {
       if(answers.employee_mgr === 'Rushi Malothra') {
-        return 1;
-      } else if(answers.employee_mgr === 'raashi Juhi') {
-        return 2;
-      } else if(answers.employee_mgr === 'Adam Walters') {
-        return 3;
-      } else if(answers.employee_mgr === 'Niel Singh') {
-        return 4;
-      } else if(answers.employee_mgr === 'Shivay Roy') {
         return 5;
+      } else if(answers.employee_mgr === 'raashi Juhi') {
+        return 6;
+      } else if(answers.employee_mgr === 'Adam Walters') {
+        return 9;
+      } else if(answers.employee_mgr === 'Niel Singh') {
+        return 10;
+      } else if(answers.employee_mgr === 'Shivay Roy') {
+        return 12;
       }  else if(answers.employee_mgr === ''){
         return "Null";
       };
       };
     console.log( `INSERT INTO employee ( first_name, last_name, profile_id, manager_id) 
-    VALUES ("${answers.emp_firstname}","${answers.emp_lastname}","${answers.employee_role}",${managerId(answers.employee_mgr)})`)
+        VALUES ("${answers.emp_firstname}","${answers.emp_lastname}","${answers.employee_role}",${managerId(answers.employee_mgr)})`)
   db.query(
   `INSERT INTO employee ( first_name, last_name, profile_id, manager_id) 
   VALUES ("${answers.emp_firstname}","${answers.emp_lastname}","${answers.employee_role}",${managerId(answers.employee_mgr)});`,
@@ -185,7 +184,7 @@ function updateEmployee () {
     {
     type: 'input',
     name: 'All_Employees',
-    message: 'Please enter employees detials for update',
+    message: 'Please enter employees ID details for update',
    }, 
    {
     type: 'input',
@@ -194,8 +193,9 @@ function updateEmployee () {
    }, 
   ])
 .then ((answers) => {
+  console.log(`UPDATE employee SET profile_id = ${answers.newRole} WHERE id=${answers.All_Employees};`)
   db.query(
-`UPDATE employee SET role_id = ${answers.newRole} WHERE id=${answers.All_Employees};`,
+`UPDATE employee SET profile_id = ${answers.newRole} WHERE id=${answers.All_Employees};`,
 
 function(err, results) {
 console.log("Employee updated"), mainPage();
@@ -238,8 +238,6 @@ function addRole () {
    }, 
    ])
     .then ((answers) => {
-//       const a = `INSERT INTO profiles (title, salary, department_id) VALUES ("${answers.roletitle}","${answers.rolesalary}","${answers.department}";`
-//  console.log(a);
       db.query(
   `INSERT INTO profiles (title, salary, department_id) VALUES ("${answers.roletitle}","${answers.rolesalary}","${answers.department}");`,
  
@@ -251,12 +249,12 @@ function addRole () {
 }
 
 function init(){
-  console.log( 'welcome to CEDS(Company employee data system)');
+  console.log( 'welcome to CEDS (company employee data system)');
   mainPage();
 }
 
 function quit() {
-  process.exit(1);
+  process.exit(1); 
   }
 
   init();
